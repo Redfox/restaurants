@@ -5,6 +5,11 @@ const createRestaurantValidator = yup.object().shape({
   description: yup.string().required(),
 })
 
+const ratingRestaurantValidator = yup.object().shape({
+  stars: yup.number().max(5).min(1).required(),
+  description: yup.string().optional(),
+})
+
 async function createRestaurantValidate(data) {
   return createRestaurantValidator.validate(data, { abortEarly: false })
                         .catch(err => {
@@ -12,6 +17,14 @@ async function createRestaurantValidate(data) {
                         })
 }
 
+async function ratingRestaurantValidate(data) {
+  return ratingRestaurantValidator.validate(data, { abortEarly: false })
+                        .catch(err => {
+                          return err
+                        })
+}
+
 module.exports = {
-  createRestaurantValidate
+  createRestaurantValidate,
+  ratingRestaurantValidate
 }

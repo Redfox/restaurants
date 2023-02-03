@@ -8,6 +8,7 @@ restaurantsRouter.use(authMiddleware)
 
 restaurantsRouter.post('/', restaurantsController.create);
 restaurantsRouter.get('/', restaurantsController.find);
+restaurantsRouter.post('/:id/rating', restaurantsController.rating);
 
 module.exports = {
   restaurantsRouter

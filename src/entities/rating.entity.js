@@ -1,19 +1,20 @@
 const { EntitySchema } = require('typeorm');
 
-const restaurantEntity = new EntitySchema({
-  name: 'Restaurant',
-  tableName: 'restaurants',
+const ratingEntity = new EntitySchema({
+  name: 'Rating',
+  tableName: 'rating',
   columns: {
     id: {
       primary: true,
       type: 'int',
       generated: true
     },
-    name: {
-      type: 'varchar'
+    stars: {
+      type: 'float'
     },
     description: {
-      type: 'varchar'
+      type: 'varchar',
+      nullable: true
     },
   },
   relations: {
@@ -23,14 +24,14 @@ const restaurantEntity = new EntitySchema({
       joinColumn: true,
       nullable: false
     },
-    ratings: {
-      type: 'one-to-many',
-      target: 'Rating',
-      inverseSide: 'restaurant'
+    restaurant: {
+      type: 'many-to-one',
+      target: 'Restaurant',
+      joinColumn: true,
     }
   }
 });
 
 module.exports = {
-  restaurantEntity
+  ratingEntity
 }

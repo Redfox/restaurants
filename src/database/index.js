@@ -1,6 +1,6 @@
 const typeorm = require('typeorm');
 const dotenv = require('dotenv');
-const { restaurantEntity, userEntity } = require('../entities');
+const { restaurantEntity, userEntity, ratingEntity } = require('../entities');
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const db = new typeorm.DataSource({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATAPASE_DB,
   synchronize: true,
-  entities: [restaurantEntity, userEntity]
+  entities: [restaurantEntity, userEntity, ratingEntity]
 })
 
 module.exports = {

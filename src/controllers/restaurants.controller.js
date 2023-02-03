@@ -1,5 +1,5 @@
 const restaurantsService = require('../services/restaurants.service');
-const { createRestaurantValidate } = require('../validators/restaurant.validator');
+const { createRestaurantValidate, ratingRestaurantValidate } = require('../validators/restaurant.validator');
 
 async function find(req, res) {
   const restaurants = await restaurantsService.find();
@@ -26,8 +26,34 @@ async function create(req, res) {
   res.status(200).json(restaurant)
 }
 
+async function rating(req, res) {
+  const body = req.body;
+  const { id } = req.params;
+  const user = req.user;
+
+  const validation = await ratingRestaurantValidate(body);
+
+  if(validation.errors) {
+    return res.status(404).json({ errors: validation.errors })
+  }
+
+  const { message } = await restaurantsService.rating({
+    userId: user.id,
+    restaurantId: id,
+    stars: body.stars,
+    description: body.description
+  });
+
+  if(message) {
+     return res.status(404).json({ message })
+  }
+
+  res.status(200).json({ message: 'Success' })
+}
+
 
 module.exports = {
   create,
-  find
+  find,
+  rating
 }

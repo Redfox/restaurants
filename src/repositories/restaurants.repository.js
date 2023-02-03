@@ -4,13 +4,13 @@ const { restaurantEntity } = require('../entities');
 const restaurantRepository = db.getRepository(restaurantEntity);
 
 async function findOne(id) {
-  const restaurant = await restaurantEntity.findOne({ where: { id } });
+  const restaurant = await restaurantRepository.findOne({ where: { id } });
 
   return restaurant;
 }
 
 async function find() {
-  const restaurants = await restaurantRepository.find();
+  const restaurants = await restaurantRepository.find({ relations: ['ratings'] });
 
   return restaurants;
 }
