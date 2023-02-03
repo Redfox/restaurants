@@ -1,7 +1,14 @@
 const authService = require('../services/auth.service');
+const { signupValidate, loginValidate } = require('../validators/auth.validator');
 
 async function signup(req, res) {
   const { email, name, password } = req.body;
+
+  const validation = await signupValidate(req.body);
+
+  if(validation.errors) {
+    return res.status(422).json({ errors: validation.errors })
+  }
 
   const { user, message } = await authService.signup({ email, name, password });
 
@@ -14,6 +21,12 @@ async function signup(req, res) {
 
 async function login(req, res) {
   const { email, password } = req.body;
+
+  const validation = await loginValidate(req.body);
+
+  if(validation.errors) {
+    return res.status(422).json({ errors: validation.errors })
+  }
 
   const { token, message } = await authService.login({ email, password });
 
