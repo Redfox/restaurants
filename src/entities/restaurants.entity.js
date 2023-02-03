@@ -1,8 +1,8 @@
 const { EntitySchema } = require('typeorm');
 
-const userEntity = new EntitySchema({
-  name: 'User',
-  tableName: 'users',
+const restaurantEntity = new EntitySchema({
+  name: 'Restaurant',
+  tableName: 'restaurants',
   columns: {
     id: {
       primary: true,
@@ -12,22 +12,20 @@ const userEntity = new EntitySchema({
     name: {
       type: 'varchar'
     },
-    email: {
-      type: 'varchar',
-      unique: true
-    },
-    password: {
+    description: {
       type: 'varchar'
-    }
+    },
   },
   relations: {
-    restaurants: {
-      type: 'one-to-many',
-      target: 'Restaurant'
+    user: {
+      type: 'many-to-one',
+      target: 'User',
+      joinColumn: true,
+      nullable: false
     }
   }
 });
 
 module.exports = {
-  userEntity
+  restaurantEntity
 }
